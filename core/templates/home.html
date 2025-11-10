@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Início - MotherClean{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h2>🖥️ Conheça os Componentes do seu PC</h2>
+        <p>Clique em cada componente para aprender mais sobre ele</p>
+    </div>
+
+    <div class="gabinete-container">
+        <div class="gabinete-image">
+            <img src="https://via.placeholder.com/600x400/2c3e50/ffffff?text=Gabinete+Aberto" alt="Gabinete">
+            
+            <!-- Hotspots clicáveis para cada componente -->
+            <div class="componentes-hotspots">
+                {% for componente in componentes %}
+                <a href="{% url 'componente_detalhe' componente.id %}" 
+                   class="hotspot hotspot-{{ componente.id }} {% if componente.id in componentes_visualizados %}visualizado{% endif %}"
+                   title="{{ componente.nome }}">
+                    <span class="hotspot-numero">{{ forloop.counter }}</span>
+                    <span class="hotspot-label">{{ componente.nome }}</span>
+                    {% if componente.id in componentes_visualizados %}
+                    <span class="hotspot-check">✓</span>
+                    {% endif %}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="componentes-lista">
+            <h3>📋 Lista de Componentes</h3>
+            <ul>
+                {% for componente in componentes %}
+                <li>
+                    <a href="{% url 'componente_detalhe' componente.id %}">
+                        <span class="componente-numero">{{ forloop.counter }}</span>
+                        <span class="componente-nome">{{ componente.nome }}</span>
+                        {% if componente.id in componentes_visualizados %}
+                        <span class="badge badge-success">✓ Visualizado</span>
+                        {% else %}
+                        <span class="badge badge-pending">Pendente</span>
+                        {% endif %}
+                    </a>
+                </li>
+                {% empty %}
+                <li class="empty-state">Nenhum componente cadastrado ainda.</li>
+                {% endfor %}
+            </ul>
+
+            <div class="progress-info">
+                <h4>Seu Progresso</h4>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {% widthratio componentes_visualizados|length componentes|length 100 %}%"></div>
+                </div>
+                <p>{{ componentes_visualizados|length }} de {{ componentes|length }} componentes visualizados</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-section">
+        <h3>Pronto para começar a manutenção?</h3>
+        <a href="{% url 'cronograma' %}" class="btn btn-large">Ver Cronograma de Manutenção</a>
+    </div>
+</div>
+{% endblock %}

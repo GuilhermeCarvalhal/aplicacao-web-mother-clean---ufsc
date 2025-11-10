@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ componente.nome }} - MotherClean{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="breadcrumb">
+        <a href="{% url 'home' %}">← Voltar ao Gabinete</a>
+    </div>
+
+    <div class="componente-detail">
+        <div class="componente-header">
+            <h2>{{ componente.nome }}</h2>
+        </div>
+
+        <div class="componente-content">
+            <div class="componente-image">
+                {% if componente.imagem_url %}
+                <img src="{{ componente.imagem_url }}" alt="{{ componente.nome }}">
+                {% else %}
+                <img src="https://via.placeholder.com/400x300/34495e/ffffff?text={{ componente.nome }}" alt="{{ componente.nome }}">
+                {% endif %}
+            </div>
+
+            <div class="componente-info">
+                <div class="info-section">
+                    <h3>O que é?</h3>
+                    <p>{{ componente.descricao }}</p>
+                </div>
+
+                <div class="info-section">
+                    <h3>Como limpar?</h3>
+                    <p>{{ componente.instrucoes_limpeza }}</p>
+                </div>
+
+                <div class="info-section warning-box">
+                    <h4>Importante</h4>
+                    <p>Sempre desligue e desconecte o computador da tomada antes de realizar qualquer manutenção!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="componente-actions">
+            {% if not tem_tarefa %}
+            <form method="POST" action="{% url 'gerar_cronograma' %}" class="inline-form">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">
+                    ➕ Adicionar ao Cronograma de Manutenção
+                </button>
+            </form>
+            {% else %}
+            <div class="alert alert-info">
+                ✓ Este componente já está no seu cronograma de manutenção
+            </div>
+            {% endif %}
+
+            <a href="{% url 'cronograma' %}" class="btn btn-secondary">
+                Ver Cronograma Completo
+            </a>
+        </div>
+    </div>
+
+    <div class="navigation-buttons">
+        <a href="{% url 'home' %}" class="btn btn-outline">← Voltar ao Início</a>
+    </div>
+</div>
+{% endblock %}

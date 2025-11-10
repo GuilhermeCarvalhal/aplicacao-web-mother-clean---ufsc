@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MotherClean{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>🖥️ MotherClean</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{% url 'home' %}" class="nav-link">Início</a></li>
+                <li><a href="{% url 'cronograma' %}" class="nav-link">Cronograma</a></li>
+                <li><a href="{% url 'logout' %}" class="nav-link">Sair</a></li>
+            </ul>
+            <div class="user-info">
+                <span>Olá, {{ user.username }}!</span>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+            <button class="close-alert" onclick="this.parentElement.remove()">×</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 MotherClean - Aprenda a cuidar do seu PC</p>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

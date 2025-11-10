@@ -1,0 +1,95 @@
+    {% extends 'base.html' %}
+
+{% block title %}Cronograma - MotherClean{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h2>Cronograma de Manutenção</h2>
+        <p>Mantenha seu PC limpo e funcionando perfeitamente</p>
+    </div>
+
+    <div class="cronograma-actions">
+        <form method="POST" action="{% url 'gerar_cronograma' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">
+                Gerar Cronograma Automático
+            </button>
+        </form>
+    </div>
+
+    <div class="cronograma-content">
+        <!-- Tarefas Pendentes -->
+        <div class="tarefas-section">
+            <h3>Tarefas Pendentes</h3>
+            
+            {% if tarefas_pendentes %}
+            <div class="tarefas-list">
+                {% for tarefa in tarefas_pendentes %}
+                <div class="tarefa-card">
+                    <div class="tarefa-info">
+                        <h4>{{ tarefa.componente.nome }}</h4>
+                        <p>{{ tarefa.descricao }}</p>
+                        <span class="tarefa-data">
+                            Agendado para: {{ tarefa.data_agendada|date:"d/m/Y" }}
+                        </span>
+                    </div>
+                    <div class="tarefa-actions">
+                        <form method="POST" action="{% url 'tarefa_concluir' tarefa.id %}" class="inline-form">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">✓ Concluir</button>
+                        </form>
+                        <form method="POST" action="{% url 'tarefa_deletar' tarefa.id %}" class="inline-form">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja remover esta tarefa?')">✕ Remover</button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <p>Você não tem tarefas pendentes!</p>
+                <p>Clique em "Gerar Cronograma Automático" para criar tarefas baseadas nos componentes que você já visualizou.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Tarefas Concluídas -->
+        <div class="tarefas-section">
+            <h3>Tarefas Concluídas (Últimas 10)</h3>
+            
+            {% if tarefas_concluidas %}
+            <div class="tarefas-list tarefas-concluidas">
+                {% for tarefa in tarefas_concluidas %}
+                <div class="tarefa-card completed">
+                    <div class="tarefa-info">
+                        <h4>{{ tarefa.componente.nome }}</h4>
+                        <p>{{ tarefa.descricao }}</p>
+                        <span class="tarefa-data">
+                            Concluído em: {{ tarefa.data_conclusao|date:"d/m/Y H:i" }}
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <p>Nenhuma tarefa concluída ainda.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="cronograma-info">
+        <div class="info-box">
+            <h4> Dica</h4>
+            <p>A MotherClean recomenda fazer manutenção preventiva a cada 30 dias para manter seu computador sempre limpo e funcionando bem!</p>
+        </div>
+    </div>
+
+    <div class="navigation-buttons">
+        <a href="{% url 'home' %}" class="btn btn-outline">← Voltar ao Início</a>
+    </div>
+</div>
+{% endblock %}
