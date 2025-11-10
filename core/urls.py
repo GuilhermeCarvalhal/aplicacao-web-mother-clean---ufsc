@@ -1,6 +1,9 @@
 from django.urls import path
 from . import views
 
+def causa_erro(request):
+    raise Exception("Erro de teste")
+
 urlpatterns = [
     # Autenticação
     path('cadastro/', views.cadastro_view, name='cadastro'),
@@ -16,4 +19,10 @@ urlpatterns = [
     path('cronograma/gerar/', views.gerar_cronograma_view, name='gerar_cronograma'),
     path('tarefa/<int:tarefa_id>/concluir/', views.tarefa_concluir_view, name='tarefa_concluir'),
     path('tarefa/<int:tarefa_id>/deletar/', views.tarefa_deletar_view, name='tarefa_deletar'),
+    
+    # Teste 500
+    path('teste-erro/', causa_erro),
+
 ]
+
+    

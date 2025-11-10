@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erro interno - MotherClean</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .error-code {
+            font-size: 8rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 0;
+            line-height: 1;
+        }
+        
+        .error-title {
+            font-size: 2rem;
+            color: white;
+            margin: 1rem 0;
+        }
+        
+        .error-message {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 1rem 0 2rem;
+        }
+        
+        .error-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-icon">⚠️</div>
+        <h1 class="error-code">500</h1>
+        <h2 class="error-title">Erro interno do servidor</h2>
+        <p class="error-message">
+            Ops! Algo deu errado no nosso servidor. Nossa equipe foi notificada e está trabalhando para resolver o problema.
+            Por favor, tente novamente mais tarde.
+        </p>
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary">Voltar ao Início</a>
+            <a href="javascript:location.reload()" class="btn btn-secondary">Tentar Novamente</a>
+        </div>
+    </div>
+</body>
+</html>

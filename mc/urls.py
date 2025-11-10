@@ -11,3 +11,7 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    
+# Handlers de erro personalizados
+handler404 = 'core.views.handler404'
+handler500 = 'core.views.handler500'
