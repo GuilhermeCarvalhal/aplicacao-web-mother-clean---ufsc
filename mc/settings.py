@@ -1,13 +1,14 @@
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = '@x)ox^)gf$umy@*5t(&f@^vng=!#%ihi^hlw*c#^9wlf%_r8dg'
+SECRET_KEY = os.environ.get('SECRET_KEY', '@x)ox^)gf$umy@*5t(&f@^vng=!#%ihi^hlw*c#^9wlf%_r8dg')
 
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
