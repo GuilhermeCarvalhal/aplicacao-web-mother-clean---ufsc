@@ -3,6 +3,9 @@
 {% block title %}Início - MotherClean{% endblock %}
 
 {% block content %}
+
+{% load static %}
+
 <div class="container">
     <div class="page-header">
         <h2>🖥️ Conheça os Componentes do seu PC</h2>
@@ -11,7 +14,7 @@
 
     <div class="gabinete-container">
         <div class="gabinete-image">
-            <img src="https://via.placeholder.com/600x400/2c3e50/ffffff?text=Gabinete+Aberto" alt="Gabinete">
+            <img src="{% static 'images/gabinete.png' %}" alt="Gabinete">
             
             <!-- Hotspots clicáveis para cada componente -->
             <div class="componentes-hotspots">
