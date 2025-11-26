@@ -22,6 +22,9 @@ urlpatterns = [
     
     # Teste 500
     path('teste-erro/', causa_erro),
+    
+    # API Clima
+    path('api/clima/', views.clima_view, name='clima'),
 
 ]
 

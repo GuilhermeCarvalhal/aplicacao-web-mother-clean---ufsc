@@ -257,15 +257,34 @@ body {
     border-radius: 12px;
     margin-bottom: 2rem;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.header-left h2 {
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+}
+
+.header-left p {
+    color: #7f8c8d;
 }
 
 .page-header h2 {
     color: var(--dark);
     margin-bottom: 0.5rem;
+    grid-column: 1;
 }
 
 .page-header p {
     color: #7f8c8d;
+    grid-column: 1;
 }
 
 /* Gabinete Container */
@@ -301,16 +320,22 @@ body {
     position: absolute;
     background: var(--primary);
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.8rem;
     border-radius: 20px;
     text-decoration: none;
     font-weight: 500;
+    font-size: 0.85rem;
     transition: all 0.3s;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    gap: 0.4rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    white-space: nowrap;
+}
+
+.hotspot-label {
+    font-size: 0.8rem;
 }
 
 .hotspot:hover {
@@ -334,12 +359,12 @@ body {
 }
 
 /* Posicionamento dos hotspots (ajuste conforme sua imagem) */
-.hotspot-1 { top: 30%; left: 35%; }
-.hotspot-2 { top: 30%; left: 55%; }
-.hotspot-3 { top: 50%; left: 40%; }
-.hotspot-4 { top: 75%; left: 30%; }
-.hotspot-5 { top: 60%; right: 25%; }
-.hotspot-6 { top: 55%; left: 45%; }
+.hotspot-1 { top: 32%; left: 28%; }
+.hotspot-2 { top: 60%; left: 35%; }
+.hotspot-3 { top: 25%; left: 40%; }
+.hotspot-4 { top: 50%; left: 45%; }
+.hotspot-5 { top: 75%; right: 58%; }
+.hotspot-6 { top: 57%; left: 74%; }
 
 /* Lista de Componentes */
 .componentes-lista {
@@ -655,6 +680,66 @@ body {
     margin-top: 3rem;
 }
 
+/* Widget de Clima */
+.clima-widget {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    min-width: 280px;
+    max-width: 320px;
+    color: white;
+}
+
+.clima-widget h3 {
+    color: white;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.clima-info {
+    background: rgba(255,255,255,0.15);
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    backdrop-filter: blur(10px);
+}
+
+.clima-info p {
+    margin: 0.4rem 0;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.clima-recomendacao {
+    background: rgba(255,255,255,0.2);
+    padding: 0.75rem;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    font-size: 0.85rem;
+    backdrop-filter: blur(10px);
+}
+
+#clima-loading {
+    color: rgba(255,255,255,0.8);
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .clima-widget {
+        max-width: 100%;
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .gabinete-container {
@@ -683,4 +768,101 @@ body {
     .componente-actions {
         flex-direction: column;
     }
+
+    
+}
+
+/* Container para alinhar Clima e Banner */
+.dashboard-intro {
+    display: flex;
+    gap: 2rem; /* Espaço entre o clima e o banner */
+    margin-bottom: 2rem;
+    align-items: stretch; /* Faz os dois tentarem ter a mesma altura */
+}
+
+/* Ajuste no Banner para ele ocupar o resto do espaço */
+.dashboard-intro .page-header {
+    flex: 1; /* Ocupa todo o espaço sobrando na direita */
+    margin-bottom: 0; /* Remove a margem inferior antiga pois o pai já tem */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza o texto verticalmente */
+}
+
+/* Garante que o widget não encolha nem estique demais */
+.dashboard-intro .clima-widget {
+    flex-shrink: 0; /* Não deixa espremer o widget */
+    height: auto; /* Permite que ele cresça se necessário */
+}
+
+/* Responsividade: Em celulares, volta a ficar um em cima do outro */
+@media (max-width: 768px) {
+    .dashboard-intro {
+        flex-direction: column-reverse; /* Banner em cima, Clima em baixo no celular */
+    }
+    
+    .dashboard-intro .clima-widget {
+        max-width: 100%; /* No celular ocupa a largura toda */
+    }
+}
+
+/* Estilos para edição de cidade no Widget */
+.btn-edit-location {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-left: 5px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.btn-edit-location:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.input-cidade-wrapper {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 0.5rem;
+    align-items: center;
+}
+
+.input-cidade-wrapper input {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: white;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.input-cidade-wrapper input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.input-cidade-wrapper input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.3);
+    border-color: white;
+}
+
+.btn-save-location, .btn-cancel-location {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: background 0.2s;
+}
+
+.btn-save-location:hover {
+    background: #2ecc71; /* Verde */
+}
+
+.btn-cancel-location:hover {
+    background: #e74c3c; /* Vermelho */
 }

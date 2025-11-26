@@ -7,9 +7,43 @@
 {% load static %}
 
 <div class="container">
-    <div class="page-header">
-        <h2>🖥️ Conheça os Componentes do seu PC</h2>
-        <p>Clique em cada componente para aprender mais sobre ele</p>
+    <div class="dashboard-intro">
+
+        <div class="page-header">
+            <div class="header-content">
+                <h2>🖥️ Conheça os Componentes do seu PC</h2>
+                <p>Clique em cada componente para aprender mais sobre ele</p>
+            </div>
+        </div>
+
+        <div class="clima-widget" id="clima-widget">
+            <h3>🌡️ Condições para Manutenção</h3>
+            <div id="clima-loading">Carregando informações do clima...</div>
+            <div id="clima-content" style="display: none;">
+                <div class="clima-info">
+                    <div class="clima-info">
+                        <div class="location-wrapper">
+                            <p id="location-display">
+                                <strong>📍 Local:</strong> 
+                                <span id="cidade">Florianópolis</span>
+                                <button onclick="alternarEdicao()" class="btn-edit-location" title="Alterar cidade">✏️</button>
+                            </p>
+
+                            <div id="location-input" style="display: none;" class="input-cidade-wrapper">
+                                <input type="text" id="nova-cidade" placeholder="Digite a cidade..." onkeypress="handleEnter(event)">
+                                <button onclick="buscarNovaCidade()" class="btn-save-location">🔍</button>
+                                <button onclick="alternarEdicao()" class="btn-cancel-location">✕</button>
+                            </div>
+                        </div>
+
+                        <p><strong>🌡️ Temperatura:</strong> <span id="temperatura">--</span>°C</p>
+                        <p><strong>💧 Umidade:</strong> <span id="umidade">--</span>%</p>
+                        <p><strong>☁️ Condição:</strong> <span id="descricao">--</span></p>
+                    </div>
+                </div>
+                <div class="clima-recomendacao" id="recomendacao"> teste</div>
+            </div>
+        </div>
     </div>
 
     <div class="gabinete-container">
@@ -66,5 +100,97 @@
         <h3>Pronto para começar a manutenção?</h3>
         <a href="{% url 'cronograma' %}" class="btn btn-large">Ver Cronograma de Manutenção</a>
     </div>
+
+    <script>
+        // Função para carregar o clima (aceita cidade opcional)
+        function carregarClima(cidadeNome) {
+            // Mostra loading se for uma nova busca
+            const loading = document.getElementById('clima-loading');
+            const content = document.getElementById('clima-content');
+            
+            // Se a cidade não foi passada, tenta pegar do localStorage ou usa padrão
+            if (!cidadeNome) {
+                cidadeNome = localStorage.getItem('user_city') || 'Florianópolis';
+            }
+
+            // Feedback visual de carregamento
+            content.style.opacity = '0.5';
+
+            fetch(`/api/clima/?cidade=${encodeURIComponent(cidadeNome)}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Cidade não encontrada');
+                    return response.json();
+                })
+                .then(data => {
+                    loading.style.display = 'none';
+                    content.style.display = 'block';
+                    content.style.opacity = '1';
+                    
+                    // Atualiza os dados na tela
+                    document.getElementById('cidade').textContent = data.cidade;
+                    document.getElementById('temperatura').textContent = data.temperatura;
+                    document.getElementById('umidade').textContent = data.umidade;
+                    document.getElementById('descricao').textContent = data.descricao;
+                    document.getElementById('recomendacao').textContent = data.recomendacao;
+
+                    // Salva a cidade escolhida no navegador do usuário
+                    localStorage.setItem('user_city', data.cidade);
+                    
+                    // Garante que o modo de edição esteja fechado
+                    fecharEdicao();
+                })
+                .catch(error => {
+                    alert('Erro: Cidade não encontrada. Verifique a grafia.');
+                    console.error('Erro:', error);
+                    content.style.opacity = '1';
+                    // Volta para a cidade anterior salva ou padrão se der erro
+                    if(cidadeNome !== 'Florianópolis') {
+                        // Opcional: recarregar a última válida
+                    }
+                });
+        }
+
+        // Alternar entre visualizar e editar
+        function alternarEdicao() {
+            const display = document.getElementById('location-display');
+            const inputDiv = document.getElementById('location-input');
+            const inputField = document.getElementById('nova-cidade');
+
+            if (inputDiv.style.display === 'none') {
+                // Entrar no modo de edição
+                display.style.display = 'none';
+                inputDiv.style.display = 'flex';
+                inputField.value = document.getElementById('cidade').textContent;
+                inputField.focus(); // Já foca para digitar
+            } else {
+                fecharEdicao();
+            }
+        }
+
+        function fecharEdicao() {
+            document.getElementById('location-display').style.display = 'block';
+            document.getElementById('location-input').style.display = 'none';
+        }
+
+        // Ação do botão de busca
+        function buscarNovaCidade() {
+            const novaCidade = document.getElementById('nova-cidade').value;
+            if (novaCidade.trim()) {
+                carregarClima(novaCidade);
+            }
+        }
+
+        // Permitir apertar ENTER para buscar
+        function handleEnter(e) {
+            if (e.key === 'Enter') {
+                buscarNovaCidade();
+            }
+        }
+
+        // Iniciar carregando a cidade salva ou padrão
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarClima();
+        });
+    </script>
 </div>
 {% endblock %}

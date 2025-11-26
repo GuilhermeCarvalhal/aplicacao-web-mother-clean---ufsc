@@ -1,3 +1,5 @@
+import requests
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -203,3 +205,45 @@ def handler404(request, exception):
 def handler500(request):
     #View personalizada para erro 500
     return render(request, '500.html', status=500)
+
+@login_required
+def clima_view(request):
+    """Busca informações de clima para recomendações de manutenção"""
+    cidade = request.GET.get('cidade', 'Florianopolis')
+    
+    # Sua chave da API aqui
+    api_key = 'f778b45fe8ff8d766118f33b351ad9cd' 
+    
+    url = f'http://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={api_key}&units=metric&lang=pt_br'
+    
+    try:
+        response = requests.get(url, timeout=5)
+        data = response.json()
+        
+        if response.status_code == 200:
+            temperatura = data['main']['temp']
+            umidade = data['main']['humidity']
+            descricao = data['weather'][0]['description']
+            
+            # Recomendação baseada na umidade
+            if umidade < 40:
+                recomendacao = "⚠️ Umidade baixa! Aumente a frequência de limpeza - pó acumula mais rápido."
+            elif umidade > 70:
+                recomendacao = "💧 Umidade alta! Fique atento à condensação nos componentes."
+            else:
+                recomendacao = "✅ Umidade ideal para seus componentes!"
+            
+            clima_info = {
+                'temperatura': round(temperatura, 1),
+                'umidade': umidade,
+                'descricao': descricao,
+                'recomendacao': recomendacao,
+                'cidade': data['name']
+            }
+            
+            return JsonResponse(clima_info)
+        else:
+            return JsonResponse({'erro': 'Cidade não encontrada'}, status=404)
+    
+    except Exception as e:
+        return JsonResponse({'erro': str(e)}, status=500)
