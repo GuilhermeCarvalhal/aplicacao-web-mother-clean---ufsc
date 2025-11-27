@@ -11,22 +11,22 @@
 
         <div class="page-header">
             <div class="header-content">
-                <h2>🖥️ Conheça os Componentes do seu PC</h2>
+                <h2><i class="fa-solid fa-computer"></i> Conheça os Componentes do seu PC</h2>
                 <p>Clique em cada componente para aprender mais sobre ele</p>
             </div>
         </div>
 
         <div class="clima-widget" id="clima-widget">
-            <h3>🌡️ Condições para Manutenção</h3>
+            <h3><i class="fa-solid fa-cloud"></i> Condições para Manutenção</h3>
             <div id="clima-loading">Carregando informações do clima...</div>
             <div id="clima-content" style="display: none;">
                 <div class="clima-info">
                     <div class="clima-info">
                         <div class="location-wrapper">
                             <p id="location-display">
-                                <strong>📍 Local:</strong> 
+                                <strong><i class="fa-solid fa-location-dot"></i> Local:</strong> 
                                 <span id="cidade">Florianópolis</span>
-                                <button onclick="alternarEdicao()" class="btn-edit-location" title="Alterar cidade">✏️</button>
+                                <button onclick="alternarEdicao()" class="btn-edit-location" title="Alterar cidade"><i class="fa-solid fa-pen"></i></button>
                             </p>
 
                             <div id="location-input" style="display: none;" class="input-cidade-wrapper">
@@ -36,9 +36,9 @@
                             </div>
                         </div>
 
-                        <p><strong>🌡️ Temperatura:</strong> <span id="temperatura">--</span>°C</p>
-                        <p><strong>💧 Umidade:</strong> <span id="umidade">--</span>%</p>
-                        <p><strong>☁️ Condição:</strong> <span id="descricao">--</span></p>
+                        <p><strong><i class="fa-solid fa-temperature-high"></i> Temperatura:</strong> <span id="temperatura">--</span>°C</p>
+                        <p><strong><i class="fa-solid fa-droplet"></i> Umidade:</strong> <span id="umidade">--</span>%</p>
+                        <p><strong><i class="fa-solid fa-cloud"></i> Condição:</strong> <span id="descricao">--</span></p>
                     </div>
                 </div>
                 <div class="clima-recomendacao" id="recomendacao"> teste</div>
@@ -67,7 +67,7 @@
         </div>
 
         <div class="componentes-lista">
-            <h3>📋 Lista de Componentes</h3>
+            <h3><i class="fa-solid fa-list"></i> Lista de Componentes</h3>
             <ul>
                 {% for componente in componentes %}
                 <li>

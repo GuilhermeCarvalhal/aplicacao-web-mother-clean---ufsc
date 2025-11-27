@@ -14,13 +14,15 @@
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "uccd4i13c1");
     </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     {% if user.is_authenticated %}
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <h1>🖥️ MotherClean</h1>
+                <h1><i class="fa-solid fa-computer"></i> MotherClean</h1>
             </div>
             <ul class="nav-menu">
                 <li><a href="{% url 'home' %}" class="nav-link">Início</a></li>

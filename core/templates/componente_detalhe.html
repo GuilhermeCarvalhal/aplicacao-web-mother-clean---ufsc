@@ -25,12 +25,12 @@
             <div class="componente-info">
                 <div class="info-section">
                     <h3>O que é?</h3>
-                    <p>{{ componente.descricao }}</p>
+                    <p>{{ componente.descricao|linebreaks }}</p>
                 </div>
 
                 <div class="info-section">
                     <h3>Como limpar?</h3>
-                    <p>{{ componente.instrucoes_limpeza }}</p>
+                    <p>{{ componente.instrucoes_limpeza|linebreaks }}</p>
                 </div>
 
                 <div class="info-section warning-box">
@@ -39,6 +39,20 @@
                 </div>
             </div>
         </div>
+
+        {% if componente.get_youtube_embed_url %}
+        <div class="video-section">
+            <h3><i class="fa-solid fa-video"></i> Tutorial em Vídeo</h3>
+            <div class="video-container">
+                <iframe 
+                    src="{{ componente.get_youtube_embed_url }}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+        {% endif %}
 
         <div class="componente-actions">
             {% if not tem_tarefa %}

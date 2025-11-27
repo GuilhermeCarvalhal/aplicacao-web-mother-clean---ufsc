@@ -26,7 +26,7 @@ class ComponenteAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Informações Básicas', {
-            'fields': ('nome', 'descricao', 'imagem_url')
+            'fields': ('nome', 'descricao', 'imagem_url', 'video_youtube')
         }),
         ('Instruções', {
             'fields': ('instrucoes_limpeza',)

@@ -12,10 +12,12 @@ class Usuario(AbstractUser):
         verbose_name_plural = 'Usuários'
 
 class Componente(models.Model):
+    """Representa cada peça do computador (processador, memória, etc)"""
     nome = models.CharField(max_length=100)
     descricao = models.TextField()
     instrucoes_limpeza = models.TextField(help_text="Como limpar este componente")
     imagem_url = models.CharField(max_length=500, blank=True)
+    video_youtube = models.CharField(max_length=500, blank=True, help_text="Link do vídeo do YouTube")  
     ordem_exibicao = models.IntegerField(default=0, help_text="Ordem de exibição no gabinete")
     ativo = models.BooleanField(default=True)
     
@@ -26,6 +28,32 @@ class Componente(models.Model):
     
     def __str__(self):
         return self.nome
+
+    def get_youtube_embed_url(self):
+        """Converte link do Youtube em URL embedável"""
+        if not self.video_youtube:
+            return None
+
+        # Tenta extrair a ID
+        video_id = None
+
+        if 'youtu.be/' in self.video_youtube:
+            # Caso 1: URL curta (youtu.be/ID)
+            video_id = self.video_youtube.split('youtu.be/')[-1].split('?')[0]
+            
+        elif 'youtube.com/watch?v=' in self.video_youtube:
+            # Caso 2: URL longa (watch?v=ID)
+            video_id = self.video_youtube.split('v=')[-1].split('&')[0]
+            
+        elif 'youtube.com/embed/' in self.video_youtube:
+            # Caso 3: Já é a URL de embed, retorna ela
+            return self.video_youtube
+        
+        # Se encontrou o ID, retorna a URL oficial de embed
+        if video_id:
+            return f'https://www.youtube.com/embed/{video_id}'
+            
+        return None # Se não encontrou o padrão, retorna None
 
 class ProgressoUsuario(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='progressos')
