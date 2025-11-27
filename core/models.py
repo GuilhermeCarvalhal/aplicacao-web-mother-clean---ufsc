@@ -12,7 +12,7 @@ class Usuario(AbstractUser):
         verbose_name_plural = 'Usuários'
 
 class Componente(models.Model):
-    """Representa cada peça do computador (processador, memória, etc)"""
+    #Representa cada peça do computador (processador, memória, etc)
     nome = models.CharField(max_length=100)
     descricao = models.TextField()
     instrucoes_limpeza = models.TextField(help_text="Como limpar este componente")
@@ -30,7 +30,7 @@ class Componente(models.Model):
         return self.nome
 
     def get_youtube_embed_url(self):
-        """Converte link do Youtube em URL embedável"""
+        #Converte link do Youtube em URL embedável
         if not self.video_youtube:
             return None
 
