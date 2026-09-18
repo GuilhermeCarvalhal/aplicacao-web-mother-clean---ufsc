@@ -541,6 +541,156 @@ body {
     line-height: 1.6;
 }
 
+.info-tabs {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.35rem;
+    margin-bottom: 1rem;
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+.info-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1rem;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #64748b;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.info-tab.is-active {
+    background: white;
+    color: var(--primary);
+    box-shadow: 0 3px 10px rgba(44, 62, 80, 0.12);
+}
+
+.info-tab-panel {
+    padding: 1.25rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.info-panel-heading,
+.reader-window-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.info-kicker {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--primary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.info-panel-heading h3 { margin-bottom: 0.75rem; }
+.reader-source p { margin-bottom: 0; }
+
+.reader-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #f8fafc;
+    color: var(--dark);
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.reader-button:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-1px); }
+.reader-modal[hidden] { display: none; }
+
+.reader-modal {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+}
+
+.reader-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.72);
+}
+
+.reader-window {
+    --reader-bg: #f4f9ff;
+    --reader-ink: #18324a;
+    --reader-accent: #247bb5;
+    position: relative;
+    width: min(620px, 100%);
+    max-height: min(680px, 90vh);
+    overflow: auto;
+    padding: 1.75rem;
+    border: 1px solid rgba(255,255,255,0.7);
+    border-radius: 16px;
+    background: var(--reader-bg);
+    color: var(--reader-ink);
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.24);
+    animation: readerOpen 0.16s ease-out;
+}
+
+@keyframes readerOpen {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.reader-window .info-kicker { color: var(--reader-accent); }
+.reader-window-header h2 { margin: 0; color: var(--reader-ink); }
+
+.reader-close {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.65);
+    color: var(--reader-ink);
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.reader-content {
+    padding: 1.35rem 1.5rem;
+    border-left: 3px solid var(--reader-accent);
+    border-radius: 0 10px 10px 0;
+    background: rgba(255,255,255,0.62);
+    color: var(--reader-ink);
+    font-size: 1.03rem;
+    line-height: 1.75;
+}
+
+.reader-content p { margin: 0; }
+.reader-is-open { overflow: hidden; }
+
 .warning-box {
     background: #fff3cd;
     padding: 1.5rem;
@@ -803,6 +953,35 @@ body {
     
     .dashboard-intro .clima-widget {
         max-width: 100%; /* No celular ocupa a largura toda */
+    }
+}
+
+@media (max-width: 480px) {
+    .info-tab {
+        padding: 0.7rem 0.45rem;
+        font-size: 0.85rem;
+    }
+
+    .info-panel-heading {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .reader-button {
+        justify-content: center;
+    }
+
+    .reader-modal {
+        padding: 0.75rem;
+    }
+
+    .reader-window {
+        padding: 1.25rem;
+    }
+
+    .reader-content {
+        padding: 1rem;
+        font-size: 0.98rem;
     }
 }
 

@@ -23,14 +23,41 @@
             </div>
 
             <div class="componente-info">
-                <div class="info-section">
-                    <h3>O que é?</h3>
-                    <p>{{ componente.descricao|linebreaks }}</p>
+                <div class="info-tabs" role="tablist" aria-label="Informações do componente">
+                    <button class="info-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="tab-o-que-e" data-tab-target="tab-o-que-e">
+                        <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                        <span>O que é?</span>
+                    </button>
+                    <button class="info-tab" type="button" role="tab" aria-selected="false" aria-controls="tab-como-limpar" data-tab-target="tab-como-limpar">
+                        <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+                        <span>Como limpar?</span>
+                    </button>
                 </div>
 
-                <div class="info-section">
-                    <h3>Como limpar?</h3>
-                    <p>{{ componente.instrucoes_limpeza|linebreaks }}</p>
+                <div class="info-tab-panel is-active" id="tab-o-que-e" role="tabpanel">
+                    <div class="info-panel-heading">
+                        <div>
+                            <span class="info-kicker">Conheça este componente</span>
+                            <h3>O que é?</h3>
+                        </div>
+                        <button class="reader-button" type="button" data-reader-target="tab-o-que-e" aria-label="Abrir O que é em uma janela de leitura">
+                            <i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="reader-source"><p>{{ componente.descricao|linebreaks }}</p></div>
+                </div>
+
+                <div class="info-tab-panel" id="tab-como-limpar" role="tabpanel" hidden>
+                    <div class="info-panel-heading">
+                        <div>
+                            <span class="info-kicker">Cuidados essenciais</span>
+                            <h3>Como limpar?</h3>
+                        </div>
+                        <button class="reader-button" type="button" data-reader-target="tab-como-limpar" aria-label="Abrir Como limpar em uma janela de leitura">
+                            <i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="reader-source"><p>{{ componente.instrucoes_limpeza|linebreaks }}</p></div>
                 </div>
 
                 <div class="info-section warning-box">
@@ -76,6 +103,22 @@
 
     <div class="navigation-buttons">
         <a href="{% url 'home' %}" class="btn btn-outline">← Voltar ao Início</a>
+    </div>
+
+    <div class="reader-modal" id="reader-modal" role="dialog" aria-modal="true" aria-labelledby="reader-modal-title" hidden>
+        <div class="reader-backdrop" data-reader-close></div>
+        <div class="reader-window" data-reader-theme="ocean">
+            <div class="reader-window-header">
+                <div>
+                    <span class="info-kicker">Modo de leitura</span>
+                    <h2 id="reader-modal-title"></h2>
+                </div>
+                <button class="reader-close" type="button" data-reader-close aria-label="Fechar janela de leitura">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="reader-content" id="reader-modal-content"></div>
+        </div>
     </div>
 </div>
 {% endblock %}
