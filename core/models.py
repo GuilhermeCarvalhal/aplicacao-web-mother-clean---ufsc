@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
+import re
 
 class Usuario(AbstractUser):
     data_cadastro = models.DateTimeField(auto_now_add=True)
@@ -30,30 +31,10 @@ class Componente(models.Model):
         return self.nome
 
     def get_youtube_embed_url(self):
-        #Converte link do Youtube em URL embedável
         if not self.video_youtube:
             return None
-
-        # Tenta extrair a ID
-        video_id = None
-
-        if 'youtu.be/' in self.video_youtube:
-            # Caso 1: URL curta (youtu.be/ID)
-            video_id = self.video_youtube.split('youtu.be/')[-1].split('?')[0]
-            
-        elif 'youtube.com/watch?v=' in self.video_youtube:
-            # Caso 2: URL longa (watch?v=ID)
-            video_id = self.video_youtube.split('v=')[-1].split('&')[0]
-            
-        elif 'youtube.com/embed/' in self.video_youtube:
-            # Caso 3: Já é a URL de embed, retorna ela
-            return self.video_youtube
-        
-        # Se encontrou o ID, retorna a URL oficial de embed
-        if video_id:
-            return f'https://www.youtube.com/embed/{video_id}'
-            
-        return None # Se não encontrou o padrão, retorna None
+        match = re.search(r'(?:v=|youtu\.be/|embed/|shorts/)([\w-]{11})', self.video_youtube)
+        return f"https://www.youtube.com/embed/{match.group(1)}" if match else None
 
 class ProgressoUsuario(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='progressos')

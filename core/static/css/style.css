@@ -320,27 +320,45 @@ body {
     position: absolute;
     background: var(--primary);
     color: white;
-    padding: 0.4rem 0.8rem;
+    width: max-content;
+    max-width: 42px;
+    height: 42px;
+    padding: 5px;
     border-radius: 20px;
     text-decoration: none;
     font-weight: 500;
     font-size: 0.85rem;
-    transition: all 0.3s;
+    transition: max-width 0.28s ease, padding 0.28s ease, gap 0.28s ease, transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0;
+    overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     white-space: nowrap;
 }
 
 .hotspot-label {
     font-size: 0.8rem;
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-width 0.28s ease, opacity 0.16s ease;
 }
 
-.hotspot:hover {
-    transform: scale(1.1);
+.hotspot:hover,
+.hotspot:focus-visible {
+    max-width: 280px;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+}
+
+.hotspot:hover .hotspot-label,
+.hotspot:focus-visible .hotspot-label {
+    max-width: 220px;
+    opacity: 1;
 }
 
 .hotspot.visualizado {
@@ -348,23 +366,46 @@ body {
 }
 
 .hotspot-numero {
+    display: grid;
+    place-items: center;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
     background: rgba(255,255,255,0.3);
-    padding: 0.2rem 0.5rem;
     border-radius: 50%;
     font-size: 0.9rem;
 }
 
 .hotspot-check {
+    max-width: 0;
     font-size: 1.2rem;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-width 0.28s ease, opacity 0.16s ease;
+}
+
+.hotspot:hover .hotspot-check,
+.hotspot:focus-visible .hotspot-check {
+    max-width: 1.5rem;
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hotspot,
+    .hotspot-label,
+    .hotspot-check {
+        transition: none;
+    }
 }
 
 /* Posicionamento dos hotspots (ajuste conforme sua imagem) */
-.hotspot-1 { top: 32%; left: 28%; }
-.hotspot-2 { top: 60%; left: 35%; }
-.hotspot-3 { top: 25%; left: 40%; }
-.hotspot-4 { top: 50%; left: 45%; }
-.hotspot-5 { top: 75%; right: 58%; }
-.hotspot-6 { top: 57%; left: 74%; }
+.hotspot-1 { top: 28%; left: 28%; }
+.hotspot-2 { top: 53%; left: 37%; }
+.hotspot-3 { top: 22%; left: 40%; }
+.hotspot-4 { top: 44%; left: 40%; }
+.hotspot-5 { top: 68%; left: 21%; }
+.hotspot-6 { top: 52%; left: 73%; }
+.hotspot-7 { top: 8%; left: 63%; }
 
 /* Lista de Componentes */
 .componentes-lista {

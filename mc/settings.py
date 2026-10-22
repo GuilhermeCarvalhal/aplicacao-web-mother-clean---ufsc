@@ -94,3 +94,5 @@ AUTH_USER_MODEL = 'core.Usuario'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
+
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"

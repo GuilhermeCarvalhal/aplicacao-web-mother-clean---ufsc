@@ -71,11 +71,14 @@
         <div class="video-section">
             <h3><i class="fa-solid fa-video"></i> Tutorial em Vídeo</h3>
             <div class="video-container">
-                <iframe 
-                    src="{{ componente.get_youtube_embed_url }}" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
+                <iframe
+                    src="{{ componente.get_youtube_embed_url }}"
+                    title="Tutorial: {{ componente.nome }}"
+                    frameborder="0"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                    loading="lazy">
                 </iframe>
             </div>
         </div>
