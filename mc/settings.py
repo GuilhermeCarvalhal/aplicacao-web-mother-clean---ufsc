@@ -9,11 +9,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'local-development-only-secret-
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-    if host.strip()
-]
+ALLOWED_HOSTS = ['*']
+
 CSRF_TRUSTED_ORIGINS = [f'https://{host}' for host in ALLOWED_HOSTS if host != '*']
 CSRF_TRUSTED_ORIGINS.extend(
     origin.strip()
