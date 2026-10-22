@@ -13,6 +13,9 @@
             <div class="header-content">
                 <h2><i class="fa-solid fa-computer"></i> Conheça os Componentes do seu PC</h2>
                 <p>Clique em cada componente para aprender mais sobre ele</p>
+                <button type="button" class="btn btn-primary btn-materiais" data-video-open>
+                    <i class="fa-solid fa-toolbox" aria-hidden="true"></i> Materiais Utilizados
+                </button>
             </div>
         </div>
 
@@ -101,6 +104,26 @@
         <a href="{% url 'cronograma' %}" class="btn btn-large">Ver Cronograma de Manutenção</a>
     </div>
 
+    <div class="reader-modal" id="video-modal" role="dialog" aria-modal="true" aria-labelledby="video-modal-title" hidden>
+        <div class="reader-backdrop" data-video-close></div>
+        <div class="reader-window video-window" data-reader-theme="ocean">
+            <div class="reader-window-header">
+                <div>
+                    <span class="info-kicker">Antes de começar</span>
+                    <h2 id="video-modal-title">Materiais para a limpeza</h2>
+                </div>
+                <button class="reader-close" type="button" data-video-close aria-label="Fechar vídeo">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+            <video id="materiais-video" controls playsinline preload="none"
+                   poster="{% static 'images/materiais-poster.jpg' %}"
+                   data-src="{% static 'videos/materiais.mp4' %}">
+                Seu navegador não suporta vídeo.
+            </video>
+        </div>
+    </div>
+
     <script>
         // Função para carregar o clima (aceita cidade opcional)
         function carregarClima(cidadeNome) {
@@ -186,6 +209,37 @@
                 buscarNovaCidade();
             }
         }
+
+        // Modal de vídeo "Materiais necessários"
+        (function () {
+            const modal = document.getElementById('video-modal');
+            const video = document.getElementById('materiais-video');
+            if (!modal || !video) return;
+            const closeBtn = modal.querySelector('.reader-close');
+            let origem = null;
+
+            function abrirVideo(e) {
+                origem = e.currentTarget;
+                if (!video.getAttribute('src')) video.src = video.dataset.src; // só baixa ao abrir
+                modal.hidden = false;
+                document.body.classList.add('reader-is-open');
+                closeBtn.focus();
+                video.play().catch(() => {});
+            }
+
+            function fecharVideo() {
+                video.pause();
+                modal.hidden = true;
+                document.body.classList.remove('reader-is-open');
+                if (origem) origem.focus();
+            }
+
+            document.querySelectorAll('[data-video-open]').forEach(b => b.addEventListener('click', abrirVideo));
+            modal.querySelectorAll('[data-video-close]').forEach(b => b.addEventListener('click', fecharVideo));
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && !modal.hidden) fecharVideo();
+            });
+        })();
 
         // Iniciar carregando a cidade salva ou padrão
         document.addEventListener('DOMContentLoaded', () => {
